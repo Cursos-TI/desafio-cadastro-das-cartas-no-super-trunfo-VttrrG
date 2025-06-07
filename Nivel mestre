@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+typedef struct {
+    char nome[30];
+    unsigned long int populacao;
+    float area;
+    float idh;
+} Carta;
+
+// Função para calcular densidade populacional
+float calcularDensidade(unsigned long int populacao, float area) {
+    return populacao / area;
+}
+
+// Função para calcular Super Poder (soma dos atributos, usando 1/densidade)
+float calcularSuperPoder(Carta c) {
+    float densidade = calcularDensidade(c.populacao, c.area);
+    float inversoDensidade = 1.0 / densidade;
+    return inversoDensidade + c.area + c.idh;
+}
+
+// Função de comparação atributo a atributo
+void compararCartas(Carta c1, Carta c2) {
+    printf("\n===== COMPARAÇÃO =====\n");
+
+    // Densidade
+    float dens1 = calcularDensidade(c1.populacao, c1.area);
+    float dens2 = calcularDensidade(c2.populacao, c2.area);
+    printf("Densidade Populacional:\n");
+    printf("%s: %.2f | %s: %.2f => ", c1.nome, dens1, c2.nome, dens2);
+    printf("%d\n", (dens1 < dens2) ? 1 : 0);  // Menor vence
+
+    // Área
+    printf("Área:\n");
+    printf("%s: %.2f | %s: %.2f => ", c1.nome, c1.area, c2.nome, c2.area);
+    printf("%d\n", (c1.area > c2.area) ? 1 : 0);
+
+    // IDH
+    printf("IDH:\n");
+    printf("%s: %.2f | %s: %.2f => ", c1.nome, c1.idh, c2.nome, c2.idh);
+    printf("%d\n", (c1.idh > c2.idh) ? 1 : 0);
+
+    // Super Poder
+    float sp1 = calcularSuperPoder(c1);
+    float sp2 = calcularSuperPoder(c2);
+    printf("Super Poder:\n");
+    printf("%s: %.2f | %s: %.2f => ", c1.nome, sp1, c2.nome, sp2);
+    printf("%d\n", (sp1 > sp2) ? 1 : 0);
+}
+
+int main() {
+    Carta c1, c2;
+
+    // Entrada de dados
+    printf("Digite os dados da Carta 1:\n");
+    printf("Nome: "); scanf(" %[^\n]", c1.nome);
+    printf("Populacao: "); scanf("%lu", &c1.populacao);
+    printf("Area: "); scanf("%f", &c1.area);
+    printf("IDH: "); scanf("%f", &c1.idh);
+
+    printf("\nDigite os dados da Carta 2:\n");
+    printf("Nome: "); scanf(" %[^\n]", c2.nome);
+    printf("Populacao: "); scanf("%lu", &c2.populacao);
+    printf("Area: "); scanf("%f", &c2.area);
+    printf("IDH: "); scanf("%f", &c2.idh);
+
+    // Comparação
+    compararCartas(c1, c2);
+
+    return 0;
+}
